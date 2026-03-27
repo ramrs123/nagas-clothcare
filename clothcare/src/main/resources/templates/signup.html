@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up – Nagaraju Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ink:   #0d0d0d;
+            --gold:  #e6b44a;
+            --gold2: #f5d07a;
+            --teal:  #0f7b6c;
+            --teal2: #13a896;
+            --cream: #fdf9f2;
+            --rust:  #c4441c;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            background: var(--ink);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .topbar-brand em { color: var(--gold); font-style: italic; }
+
+        .topbar-link {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .topbar-link:hover { color: var(--gold); }
+
+        .page {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+        }
+
+        /* gold header for signup to differentiate from login */
+        .card-header {
+            background: linear-gradient(135deg, #b8822a 0%, var(--gold) 100%);
+            padding: 2rem 2rem 1.6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; right: -40px;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            border: 30px solid rgba(255,255,255,0.12);
+        }
+
+        .card-header .ch-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(13,13,13,0.55);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .card-body { padding: 2rem; }
+
+        .msg-error {
+            background: #fef2f0;
+            border-left: 3px solid var(--rust);
+            color: var(--rust);
+            font-size: 0.82rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 2px;
+            margin-bottom: 1.2rem;
+        }
+
+        .field { margin-bottom: 1.2rem; }
+
+        .field label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #777;
+            margin-bottom: 0.45rem;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #e5e0d8;
+            border-radius: 3px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            color: var(--ink);
+            background: var(--cream);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .field input:focus {
+            border-color: var(--gold);
+            background: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--gold);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.4rem;
+        }
+
+        .btn-submit:hover { background: var(--gold2); }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 1.4rem 0;
+        }
+        .divider::before, .divider::after { content:''; flex:1; height:1px; background:#e5e0d8; }
+        .divider span { font-size:0.7rem; color:#aaa; letter-spacing:0.1em; text-transform:uppercase; }
+
+        .alt-link {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #888;
+            margin-top: 1.4rem;
+        }
+
+        .alt-link a {
+            color: var(--teal);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .alt-link a:hover { color: var(--teal2); }
+
+        footer {
+            background: var(--ink);
+            color: #555;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="topbar-brand">Nagaraju <em>Professional</em></span>
+    <a th:href="@{/}" class="topbar-link">← Back to Home</a>
+</div>
+
+<div class="page">
+    <div class="card">
+        <div class="card-header">
+            <p class="ch-label">Join Us Today</p>
+            <h2>Create Account</h2>
+        </div>
+        <div class="card-body">
+
+            <p th:if="${signupError}" th:text="${signupError}" class="msg-error"></p>
+
+            <form th:action="@{/signup}" method="post">
+                <input th:if="${_csrf}" type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}"/>
+
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Choose a username" required>
+                </div>
+                <div class="field">
+                    <label>Phone Number</label>
+                    <input type="text" name="phoneNo" placeholder="Your mobile number" required>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Create a password" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Create Account</button>
+            </form>
+
+            <div class="divider"><span>or</span></div>
+
+            <p class="alt-link">
+                Already have an account? <a th:href="@{/login}">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer>© 2024 Nagaraju Professional Dry Clean</footer>
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagaraju Professional Dry Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ink:     #0d0d0d;
+            --gold:    #e6b44a;
+            --gold2:   #f5d07a;
+            --teal:    #0f7b6c;
+            --teal2:   #13a896;
+            --cream:   #fdf9f2;
+            --rust:    #c4441c;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: var(--ink);
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 2rem 3.5rem;
+            text-align: center;
+        }
+
+        /* decorative arcs */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px; right: -120px;
+            width: 380px; height: 380px;
+            border-radius: 50%;
+            border: 60px solid var(--teal);
+            opacity: 0.18;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: -80px;
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            border: 40px solid var(--gold);
+            opacity: 0.15;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: var(--teal);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            padding: 0.35rem 1rem;
+            border-radius: 2px;
+            margin-bottom: 1.6rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2.6rem, 7vw, 5rem);
+            line-height: 1.05;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            font-size: 0.78rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #888;
+            margin-top: 1rem;
+        }
+
+        /* ── Offer strip ── */
+        .offer-strip {
+            background: linear-gradient(90deg, var(--rust) 0%, #e05c28 100%);
+            color: #fff;
+            text-align: center;
+            padding: 0.9rem 1rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .offer-strip span {
+            background: #fff;
+            color: var(--rust);
+            padding: 0.15rem 0.6rem;
+            border-radius: 2px;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        /* ── Main ── */
+        .main {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 3.5rem 1.5rem;
+        }
+
+        /* ── Section label ── */
+        .label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .label::after {
+            content: '';
+            flex: 1;
+            height: 1.5px;
+            background: linear-gradient(to right, var(--teal2), transparent);
+        }
+
+        /* ── Services ── */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            background: #fff;
+            border: 1.5px solid #ede8df;
+            border-top: 4px solid var(--teal);
+            padding: 1.4rem 1.2rem;
+            border-radius: 4px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+        }
+
+        .service-card:nth-child(2) { border-top-color: var(--gold); }
+        .service-card:nth-child(3) { border-top-color: var(--rust); }
+        .service-card:nth-child(4) { border-top-color: var(--teal2); }
+        .service-card:nth-child(5) { border-top-color: #8b5cf6; }
+
+        .service-name {
+            font-size: 0.93rem;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.4;
+        }
+
+        /* ── Highlight row ── */
+        .highlights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .highlight-box {
+            padding: 1.6rem 1.4rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box.gold-box {
+            background: var(--gold);
+            color: var(--ink);
+        }
+
+        .highlight-box.teal-box {
+            background: var(--teal);
+            color: #fff;
+        }
+
+        .highlight-box .hb-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            opacity: 0.65;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box .hb-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .highlight-box::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; right: -20px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+        }
+
+        /* ── Delivery badge ── */
+        .delivery {
+            background: var(--ink);
+            color: #fff;
+            border-radius: 4px;
+            padding: 1.4rem 1.8rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .delivery-left .dl-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .delivery-left .dl-sub {
+            font-size: 0.78rem;
+            color: #888;
+            margin-top: 0.2rem;
+        }
+
+        .delivery-icon {
+            font-size: 2rem;
+            opacity: 0.6;
+        }
+
+        /* ── Contact ── */
+        .contact-section {
+            background: linear-gradient(135deg, var(--teal) 0%, #0a5c50 100%);
+            border-radius: 6px;
+            padding: 2.5rem 2rem;
+            color: #fff;
+            margin-bottom: 2rem;
+        }
+
+        .contact-section .label {
+            color: var(--gold2);
+        }
+        .contact-section .label::after {
+            background: linear-gradient(to right, var(--gold2), transparent);
+        }
+
+        .phone {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.6rem;
+        }
+
+        .contact-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gold2);
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-addr {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.7;
+        }
+
+        /* ── Buttons ── */
+        .btn-row {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.8rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-call {
+            background: var(--gold);
+            color: var(--ink);
+        }
+        .btn-call:hover { background: var(--gold2); }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.4);
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: #fff;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--ink);
+            color: #555;
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 520px) {
+            .highlights { grid-template-columns: 1fr; }
+            .delivery { flex-direction: column; align-items: flex-start; }
+            .btn-row { flex-direction: column; }
+            .btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <p class="hero-label">Krishna District · Est. 2024</p>
+    <h1>Nagaraju<br><em>Professional</em></h1>
+    <p class="hero-sub">Dry Clean &nbsp;·&nbsp; Wash &nbsp;·&nbsp; Saree Care &nbsp;·&nbsp; Ironing</p>
+</div>
+
+<div class="offer-strip">
+    <span>25% OFF</span> On Your First Service — Book Today
+</div>
+
+<div class="main">
+
+    <p class="label">Our Services</p>
+    <div class="services">
+        <div class="service-card"><p class="service-name">Dry Cleaning</p></div>
+        <div class="service-card"><p class="service-name">Wet &amp; Dry Wash</p></div>
+        <div class="service-card"><p class="service-name">Saree Rolling &amp; Polishing</p></div>
+        <div class="service-card"><p class="service-name">Starch &amp; Iron</p></div>
+        <div class="service-card"><p class="service-name">Pickup &amp; Delivery</p></div>
+    </div>
+
+    <div class="highlights">
+        <div class="highlight-box gold-box">
+            <p class="hb-label">Special Care</p>
+            <p class="hb-text">White Clothes &amp; Pattu Sarees</p>
+        </div>
+        <div class="highlight-box teal-box">
+            <p class="hb-label">Expert Handling</p>
+            <p class="hb-text">Fabric-first approach, every time</p>
+        </div>
+    </div>
+
+    <div class="delivery">
+        <div class="delivery-left">
+            <p class="dl-title">Free Home Delivery</p>
+            <p class="dl-sub">We pick up and drop off — no extra charge</p>
+        </div>
+        <div class="delivery-icon">🚚</div>
+    </div>
+
+    <div class="contact-section">
+        <p class="label">Contact Us</p>
+        <p class="phone">93 91321 321</p>
+        <p class="contact-name">Nagaraju Sattu</p>
+        <p class="contact-addr">
+            Anumanchipalli (V), Jaggaiahpeta (M)<br>
+            Krishna District – 521175
+        </p>
+        <div class="btn-row">
+            <a href="tel:+919391321321" class="btn btn-call">Call to Book</a>
+            <a th:href="@{/login}"  class="btn btn-outline">Login</a>
+            <a th:href="@{/signup}" class="btn btn-outline">Sign Up</a>
+        </div>
+    </div>
+
+</div>
+
+<footer>© 2024 Nagaraju Professional Dry Clean · All rights reserved</footer>
+
+</body>
+</html>

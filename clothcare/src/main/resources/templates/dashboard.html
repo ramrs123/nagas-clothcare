@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard – Nagaraju Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ink:   #0d0d0d;
+            --gold:  #e6b44a;
+            --gold2: #f5d07a;
+            --teal:  #0f7b6c;
+            --teal2: #13a896;
+            --cream: #fdf9f2;
+            --rust:  #c4441c;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Topbar ── */
+        .topbar {
+            background: var(--ink);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+        .topbar-brand em { color: var(--gold); font-style: italic; }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .topbar-user {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: #888;
+            letter-spacing: 0.05em;
+        }
+
+        .topbar-user span {
+            color: var(--gold2);
+            font-weight: 600;
+        }
+
+        /* ── Main ── */
+        .main {
+            flex: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 3rem 1.5rem;
+        }
+
+        /* ── Welcome hero ── */
+        .welcome-hero {
+            background: linear-gradient(135deg, var(--teal) 0%, #0a5c50 100%);
+            border-radius: 6px;
+            padding: 2.5rem 2rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 50px solid rgba(255,255,255,0.07);
+        }
+
+        .welcome-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; left: -40px;
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            border: 35px solid rgba(230,180,74,0.15);
+        }
+
+        .wh-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--gold2);
+            margin-bottom: 0.6rem;
+        }
+
+        .wh-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .wh-since {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.55);
+        }
+
+        /* ── Section label ── */
+        .label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .label::after {
+            content: '';
+            flex: 1;
+            height: 1.5px;
+            background: linear-gradient(to right, var(--teal2), transparent);
+        }
+
+        /* ── Quick actions grid ── */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 2.5rem;
+        }
+
+        .action-card {
+            background: #fff;
+            border: 1.5px solid #ede8df;
+            border-radius: 4px;
+            padding: 1.5rem 1.3rem;
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+        }
+
+        .action-card .ac-bar {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+
+        .ac-bar.gold  { background: var(--gold); }
+        .ac-bar.teal  { background: var(--teal2); }
+        .ac-bar.rust  { background: var(--rust); }
+
+        .ac-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .ac-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.25rem;
+        }
+
+        .ac-desc {
+            font-size: 0.75rem;
+            color: #999;
+            line-height: 1.5;
+        }
+
+        /* ── Book service CTA ── */
+        .book-cta {
+            background: var(--ink);
+            border-radius: 6px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .book-cta-left .bc-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .book-cta-left .bc-sub {
+            font-size: 0.78rem;
+            color: #777;
+        }
+
+        .btn-book {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            background: var(--gold);
+            color: var(--ink);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-book:hover { background: var(--gold2); }
+
+        /* ── Logout ── */
+        .logout-section {
+            text-align: right;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1.5px solid #e0dbd2;
+            color: #999;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 0.6rem 1.4rem;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--rust);
+            color: var(--rust);
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--ink);
+            color: #555;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 520px) {
+            .book-cta { flex-direction: column; align-items: flex-start; }
+            .logout-section { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+    <span class="topbar-brand">Nagaraju <em>Professional</em></span>
+    <div class="topbar-right">
+        <span class="topbar-user">Hello, <span th:text="${username}">User</span></span>
+    </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+    <!-- Welcome hero -->
+    <div class="welcome-hero">
+        <p class="wh-label">Your Dashboard</p>
+        <p class="wh-name">Welcome back, <span th:text="${username}">User</span></p>
+        <p class="wh-since">Member since <span th:text="${memberSince}">--</span></p>
+    </div>
+
+    <!-- Quick actions -->
+    <p class="label">Quick Actions</p>
+    <div class="actions-grid">
+        <a href="tel:+919391321321" class="action-card">
+            <div class="ac-bar gold"></div>
+            <div class="ac-icon">📞</div>
+            <p class="ac-title">Call Us</p>
+            <p class="ac-desc">Speak directly with Nagaraju Sattu</p>
+        </a>
+        <a href="tel:+919391321321" class="action-card">
+            <div class="ac-bar teal"></div>
+            <div class="ac-icon">👕</div>
+            <p class="ac-title">Book Pickup</p>
+            <p class="ac-desc">Schedule a home pickup for your clothes</p>
+        </a>
+        <a href="tel:+919391321321" class="action-card">
+            <div class="ac-bar rust"></div>
+            <div class="ac-icon">🥻</div>
+            <p class="ac-title">Saree Care</p>
+            <p class="ac-desc">Special handling for Pattu &amp; silk sarees</p>
+        </a>
+    </div>
+
+    <!-- Book service CTA -->
+    <div class="book-cta">
+        <div class="book-cta-left">
+            <p class="bc-title">Ready to Book a Service?</p>
+            <p class="bc-sub">Free home delivery · 25% off your first order</p>
+        </div>
+        <a href="tel:+919391321321" class="btn-book">📞 &nbsp;9391321321</a>
+    </div>
+
+    <!-- Logout -->
+    <div class="logout-section">
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <input th:if="${_csrf}" type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}"/>
+            <button type="submit" class="btn-logout">Logout</button>
+        </form>
+    </div>
+
+</div>
+
+<footer>© 2024 Nagaraju Professional Dry Clean · All rights reserved</footer>
+
+</body>
+</html>
