@@ -15,7 +15,7 @@
     <groupId>com.aarmita</groupId>
     <artifactId>clothcare</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>clothcare</name>
     <description>Aarmita ClothCare Application</description>
 
@@ -24,6 +24,7 @@
     </properties>
 
     <dependencies>
+
         <!-- Spring MVC + Thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
